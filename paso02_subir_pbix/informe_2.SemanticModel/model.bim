@@ -1,0 +1,158 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"Catalog_v2\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.137.952.0 (24.10)"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "es-AR",
+    "cultures": [
+      {
+        "name": "es-AR",
+        "linguisticMetadata": {
+          "content": {
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "es-AR",
+    "tables": [
+      {
+        "name": "Catalog_v2",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navegación"
+          }
+        ],
+        "columns": [
+          {
+            "name": "levelType",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "c08c130e-0e87-468c-b54e-7e41b0db544b",
+            "sourceColumn": "levelType",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "code",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9f1e6b6d-2b1f-4a71-998a-4f5ecc845f51",
+            "sourceColumn": "code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "catalogType",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "db04cc55-f8bc-4ff1-ab03-4a676a899828",
+            "sourceColumn": "catalogType",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "name",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d99f9f6b-7ef0-40d7-81c6-024790b97043",
+            "sourceColumn": "name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "description",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a14a6581-d9f0-4e36-b992-57e72f5dbfa9",
+            "sourceColumn": "description",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "sourceLink",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d0eba7ab-701c-441d-b32b-4e526ef1bf9a",
+            "sourceColumn": "sourceLink",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "b22c5d10-1640-43ee-8be4-8f7151b3b190",
+        "partitions": [
+          {
+            "name": "Catalog_v2",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Origen = Csv.Document(File.Contents(\"C:\\Repositorio PBI\\data\\Catalog_v2.csv\"),[Delimiter=\",\", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Tipo cambiado\" = Table.TransformColumnTypes(Origen,{{\"Column1\", type text}, {\"Column2\", type text}, {\"Column3\", type text}, {\"Column4\", type text}, {\"Column5\", type text}, {\"Column6\", type text}}),",
+                "    #\"Encabezados promovidos\" = Table.PromoteHeaders(#\"Tipo cambiado\", [PromoteAllScalars=true]),",
+                "    #\"Tipo cambiado1\" = Table.TransformColumnTypes(#\"Encabezados promovidos\",{{\"levelType\", type text}, {\"code\", type text}, {\"catalogType\", type text}, {\"name\", type text}, {\"description\", type text}, {\"sourceLink\", type text}}),",
+                "    #\"Columna condicional agregada\" = Table.AddColumn(#\"Tipo cambiado1\", \"Personalizado\", each if [code] = \"Street Lighting\" then 10 else if [code] = \"Pedestrian Lighting\" then 20 else if [code] = \"Traffic Signal Poles\" then 11 else if [code] = \"Controls\" then 22 else if [code] = \"Downlights\" then 13 else if [code] = \"Retrofit Downlights\" then 24 else if [code] = \"Ambient\" then 14 else if [code] = \"Bulbs\" then 26 else null, type number),",
+                "    #\"Columnas quitadas\" = Table.RemoveColumns(#\"Columna condicional agregada\",{\"Personalizado\"})",
+                "in",
+                "    #\"Columnas quitadas\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
